@@ -11,20 +11,7 @@
 |
 */
 
-	Route::get('/', function()
-	{
-		return Redirect::to('/home');
-	});
-
-	Route::get('/home', function()
-	{
-		return View::make('index');
-	});
-
-	Route::get('/articles',['uses'=>'TaskController@getArticles','as'=>'articles']);
-	Route::get('/article/{id}',['uses'=>'TaskController@showArticle','as'=>'article']);
-
-	Route::get('/about',['uses'=>'TaskController@showAbout','as'=>'about']);
-
-	Route::get('/contact-us',['uses'=>'TaskController@getContacts','as'=>'contact-us']);
-	Route::post('/contact-us',['uses'=>'TaskController@postContacts','as'=>'contact-post']);
+	Route::get('/',['uses'=>'TaskController@getArtist','as'=>'artists']);
+	Route::get('/artist/{id}',['uses'=>'TaskController@showArtist','as'=>'artist']);
+	Route::get('/album/{id}',['uses'=>'TaskController@showAlbum','as'=>'album']);
+	Route::get('/track/{id}',['uses'=>'TaskController@showTrack','as'=>'track']);

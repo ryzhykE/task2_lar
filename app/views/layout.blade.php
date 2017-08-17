@@ -31,12 +31,7 @@
                     </button>
                 </div>
                 <div id="navbar" class="navbar-collapse collapse">
-                    <ul class="nav navbar-nav">
-                        <li class="active"><a href="{{ URL::to('home') }}">Home</a></li>
-                        <li><a href="{{ route('about') }}">About</a></li>
-                        <li><a href="{{ route('articles') }} ">Articles</a></li>
-                        <li><a href="{{  route('contact-us') }}">Contact-us</a></li>
-                    </ul>
+
                 </div>
             </div>
         </nav>

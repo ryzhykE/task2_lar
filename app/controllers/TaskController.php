@@ -1,50 +1,38 @@
 <?php
 
+
 class TaskController extends BaseController
 {
-    public function showAbout()
+
+    public function getArtist()
     {
-        return View::make('about');
+        $artists = DB::table('Artist')->select('artistid','name')->limit(10)->get();
+        return View::make('artist')->with('artists', $artists);
     }
 
-    public function getArticles()
+    public function showArtist($id)
     {
-        $articles = ['articles'=>
-            ['article1'=>['articleText' =>'article 1','articleHref'=>'article/1'],
-            'article2'=>['articleText' =>'article 2','articleHref'=>'article/2'],
-            'article3'=>['articleText' =>'article 3','articleHref'=>'article/3'],
-            'article4'=>['articleText' =>'article 4','articleHref'=>'article/4'],
-            'article5'=>['articleText' =>'article 5','articleHref'=>'article/5'],
-        ]];
-
-        return View::make('article',$articles);
+        $albums = Artist::find($id)->albums()->get();
+        return View::make('artist')->with('albums', $albums);
     }
 
-    public function showArticle($id)
+    public function showAlbum($id)
     {
-        return View::make('articleItem',['name'=>$id]);
+        $tracks = Album::find($id)->tracks()->get();
+        $track = Album::find($id)->tracks()->get()->toArray();
+        $artistId =Album::find($track[0]['AlbumId'])->ArtistId;
+        $artistName = Artist::where('ArtistId',$artistId)->get();
+        return View::make('artist',['tracks' => $tracks, 'artisName' => $artistName[0]['Name']]);
+
     }
 
-    public function getContacts()
+    public function showTrack($id)
     {
-        return View::make('contact-us');
-    }
+        //$trackOnes = Track::find($id)->get();
+        $trackOnes = Track::find($id)->toArray();
+        $album_tr = Album::find($trackOnes["AlbumId"])->Title;
 
-    public function postContacts()
-    {
-        $validator = Validator::make(Input::all(),
-            array('name' => 'required',
-                'message' => 'required')
-            );
-        if ($validator->fails())
-        {
-            $messages = $validator->messages();
-            return Redirect::to('contact-us')->withErrors($messages);
-        }
-        else
-        {
-            return View::make('thank-you',['name'=>Input::get('name')]);
-        }
-    }
 
+        return View::make('artist',['trackOnes' => $trackOnes], ['album_tr' => $album_tr]);
+    }
 }
